@@ -7,8 +7,8 @@ with open("token.txt", "r") as tokenfile:
 
 class Bot(commands.Bot):
     """discord.ext.commands.Bot subclass"""
-    def __init__(self, command_prefix, activity):
-        super().__init__(command_prefix)
+    def __init__(self, command_prefix, activity, intents):
+        super().__init__(command_prefix, intents=intents)
         self.activity = activity
 
     def load_cogs(self):
@@ -32,6 +32,10 @@ class Bot(commands.Bot):
         await super().change_presence(activity=self.activity)
         print("Bot Prepared!")
 
+intents = discord.Intents.default()
+intents.members = True
+
 bot = Bot(command_prefix="!",
-          activity=discord.Game(name="Commands: !commands"))
+          activity=discord.Game(name="Commands: !commands"),
+          intents = intents)
 bot.run(token)
